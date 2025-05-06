@@ -26,6 +26,9 @@
 # *.vhd
 # *.v
 
+build/*
+.DS_Store 
+
 # ignore Quartus II generated files
 *_generation_script*
 *_inst.vhd
