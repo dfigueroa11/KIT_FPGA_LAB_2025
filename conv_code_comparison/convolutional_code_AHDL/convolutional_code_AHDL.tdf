@@ -1,0 +1,34 @@
+
+
+
+subdesign convolutional_code_AHDL(
+	data_in, clk, rst: input;
+	data_out0, data_out1: output
+)
+variable
+	conv_code_state: MACHINE 
+	WITH STATES (
+		s00 = b"00",
+		s01 = b"01",
+		s10 = b"10",
+		s11 = b"11");
+	d_in: node;
+	
+begin
+	conv_code_state.clk = clk;
+	conv_code_state.reset = rst;
+	
+	d_in = DFF(data_in, clk, VCC, VCC);
+	
+	TABLE
+	conv_code_state, d_in	=> data_out1, data_out0, conv_code_state;
+	s00, 0 => 0, 0, s00;
+	s00, 1 => 1, 1, s01;
+	s01, 0 => 1, 0, s10;
+	s01, 1 => 0, 1, s11;
+	s10, 0 => 1, 1, s00;
+	s10, 1 => 0, 0, s01;
+	s11, 0 => 0, 1, s10;
+	s11, 1 => 1, 0, s11;
+	END TABLE;
+end;

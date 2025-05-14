@@ -18,14 +18,14 @@
 #
 # Quartus II 64-Bit
 # Version 13.1.0 Build 162 10/23/2013 SJ Full Version
-# Date created = 15:54:21  May 07, 2025
+# Date created = 15:52:52  May 14, 2025
 #
 # -------------------------------------------------------------------------- #
 #
 # Notes:
 #
 # 1) The default values for assignments are stored in the file:
-#		convolutional_code_VHDL_assignment_defaults.qdf
+#		conv_code_comparison_assignment_defaults.qdf
 #    If this file doesn't exist, see file:
 #		assignment_defaults.qdf
 #
@@ -36,26 +36,40 @@
 # -------------------------------------------------------------------------- #
 
 
-set_global_assignment -name FAMILY "Cyclone III"
-set_global_assignment -name DEVICE EP3C5F256C6
-set_global_assignment -name TOP_LEVEL_ENTITY convolutional_code_VHDL
+set_global_assignment -name FAMILY "Cyclone IV GX"
+set_global_assignment -name DEVICE EP4CGX15BF14C6
+set_global_assignment -name TOP_LEVEL_ENTITY conv_code_comparison
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:54:21  MAY 07, 2025"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:52:52  MAY 14, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
-set_global_assignment -name VHDL_FILE convolutional_code_VHDL.vhd
+set_global_assignment -name BSF_FILE convolutional_code_AHDL/convolutional_code_AHDL.bsf
+set_global_assignment -name BSF_FILE convolutional_code_sr/convolutional_code_sr.bsf
+set_global_assignment -name BSF_FILE convolutional_code_VHDL/convolutional_code_VHDL.bsf
+set_global_assignment -name VHDL_FILE convolutional_code_VHDL/convolutional_code_VHDL.vhd
+set_global_assignment -name BDF_FILE convolutional_code_sr/convolutional_code_sr.bdf
+set_global_assignment -name AHDL_FILE convolutional_code_AHDL/convolutional_code_AHDL.tdf
+set_global_assignment -name BDF_FILE conv_code_comparison.bdf
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_location_assignment PIN_T3 -to data_out0
-set_location_assignment PIN_R3 -to data_out1
-set_location_assignment PIN_E2 -to clk
-set_location_assignment PIN_E1 -to rst
-set_location_assignment PIN_P3 -to data_in
+set_location_assignment PIN_L7 -to out_AHDL[1]
+set_location_assignment PIN_M6 -to out_AHDL[0]
+set_location_assignment PIN_N4 -to out_BDF[1]
+set_location_assignment PIN_L4 -to out_BDF[0]
+set_location_assignment PIN_N6 -to out_VHDL[1]
+set_location_assignment PIN_M4 -to out_VHDL[0]
+set_location_assignment PIN_J7 -to clk
+set_location_assignment PIN_J6 -to rst
+set_location_assignment PIN_L5 -to data_in
+set_location_assignment PIN_N5 -to ~ALTERA_NCEO~
+set_location_assignment PIN_A5 -to ~ALTERA_DATA0~
+set_location_assignment PIN_B5 -to ~ALTERA_ASDO~
+set_location_assignment PIN_C5 -to ~ALTERA_NCSO~
+set_location_assignment PIN_A4 -to ~ALTERA_DCLK~
 set_global_assignment -name VECTOR_WAVEFORM_FILE Waveform.vwf
-set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR "U:/Documents/KIT_FPGA_LAB_2025/convolutional_code_VHDL/simulation/qsim/" -section_id eda_simulation
-set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_simulation
-set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR "U:/Documents/KIT_FPGA_LAB_2025/conv_code_comparison/simulation/qsim/" -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
