@@ -1,5 +1,5 @@
 $date
-  Tue May  6 11:32:59 2025
+  Tue May 20 17:42:47 2025
 $end
 $version
   GHDL v0
@@ -9,43 +9,159 @@ $timescale
 $end
 $scope module standard $end
 $upscope $end
-$scope module delta_testbench $end
-$var reg 1 ! a $end
-$var reg 1 " clk $end
-$var reg 1 # d $end
+$scope module std_logic_1164 $end
+$upscope $end
+$scope module my_pkg $end
+$upscope $end
+$scope module shift_reg_tb $end
+$var reg 1 ! clk $end
+$var reg 1 " load $end
+$var reg 1 # left_right $end
+$var reg 8 $ din[7:0] $end
+$var reg 8 % dout[7:0] $end
 $scope module uut $end
-$var reg 1 $ a $end
-$var reg 1 % clk $end
-$var reg 1 & d $end
-$var reg 1 ' b $end
-$var reg 1 ( c $end
+$var reg 8 & din[7:0] $end
+$var reg 1 ' clk $end
+$var reg 1 ( load $end
+$var reg 1 ) left_right $end
+$var reg 8 * dout[7:0] $end
+$var reg 8 + shift_val[7:0] $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
-1!
-1"
+0!
+0"
 0#
-1$
-1%
-0&
+b00100110 $
+bUUUUUUUU %
+b00100110 &
 0'
 0(
+0)
+bUUUUUUUU *
+bUUUUUUUU +
 #1000000
-0&
+1"
+b00100110 %
 1(
+b00100110 *
+b00010011 +
 #2000000
-0&
+0"
+0(
+#5000000
+1!
+b00010011 %
+1'
+b00010011 *
+b10001001 +
+#7000000
 #10000000
 0!
-0$
-#11000000
-1'
-#12000000
+0'
+#14000000
 1#
-1&
-0(
-#13000000
+1)
+b00100110 +
+#15000000
+1!
+b00100110 %
+1'
+b00100110 *
+b01001100 +
+#16000000
 0#
-0&
+0)
+b00010011 +
+#17000000
 #20000000
+0!
+0'
+#25000000
+1!
+b00010011 %
+1'
+b00010011 *
+b10001001 +
+#30000000
+0!
+0'
+#35000000
+1!
+b10001001 %
+1'
+b10001001 *
+b11000100 +
+#40000000
+0!
+0'
+#45000000
+1!
+b11000100 %
+1'
+b11000100 *
+b01100010 +
+#50000000
+0!
+0'
+#55000000
+1!
+b01100010 %
+1'
+b01100010 *
+b00110001 +
+#60000000
+0!
+0'
+#65000000
+1!
+b00110001 %
+1'
+b00110001 *
+b10011000 +
+#70000000
+0!
+0'
+#75000000
+1!
+b10011000 %
+1'
+b10011000 *
+b01001100 +
+#80000000
+0!
+0'
+#85000000
+1!
+b01001100 %
+1'
+b01001100 *
+b00100110 +
+#90000000
+0!
+0'
+#95000000
+1!
+b00100110 %
+1'
+b00100110 *
+b00010011 +
+#100000000
+0!
+0'
+#105000000
+1!
+b00010011 %
+1'
+b00010011 *
+b10001001 +
+#110000000
+0!
+0'
+#115000000
+1!
+b10001001 %
+1'
+b10001001 *
+b11000100 +
