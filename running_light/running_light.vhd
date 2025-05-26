@@ -1,7 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 use work.const_types_pkg.all;
+use work.velocities_rom.all;
 
 entity running_light is
     port(clk, start, stop_sys, rst, load_pattern: in std_logic;
@@ -58,10 +60,9 @@ begin
         generic map(num_cells => num_lights)
         port map(leds_clk, load, dir, pattern_in, pattern_out);
     
-    leds_vel <= (2 downto 0 => '1', others => '0'); -- implement it as a ROM later
+    leds_vel <= velocities(to_integer(unsigned(dip_sws(adr_len - 1 downto 0))));
     leds <= pattern_out;
-
-    -- do something with dir
+    dir <= left;
 
     process(curr_state, start, load_pattern, stop_sys, dip_sws)
     begin
@@ -69,7 +70,6 @@ begin
         when ss_reset =>
             pattern_in <= (num_lights - 1 => '1', others => '0');
             load <= '1';
-            dir <= left;
             rst_dec_cnt <= '1';
             rst_clk_div0 <= '1';
             rst_clk_div1 <= '1';

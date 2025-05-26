@@ -37,6 +37,7 @@ begin
         start <= '0';
         stop_sys <= '0';
         load_pattern <= '0';
+        dip_sws <= "00111111";
         wait for 1 ns;
         rst <= '0';
         start <= '1';
@@ -82,8 +83,9 @@ begin
         rst <= '1';
         wait for 1 ns;
         rst <= '0';
-        
-        wait for 5 us;
+        wait for 10 ns;
+        dip_sws <= "00101111";
+        wait for 3 us;
         assert false report "Simulation finished" severity failure;
     end process;
 

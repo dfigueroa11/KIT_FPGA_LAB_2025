@@ -19,9 +19,8 @@ package const_types_pkg is
 
     constant num_dip_sws: integer := 8;
     constant num_lights: integer := 8;
-    constant clk_div0_len: integer := 26;
+
     constant clk_div1_len: integer := 3;
-    
     constant num_lights_bit_vec: std_logic_vector(clk_div1_len - 1 downto 0) := (others => '1');
     type direction is (left, right);
 end package;
