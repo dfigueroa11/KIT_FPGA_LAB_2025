@@ -8,15 +8,18 @@ end clk_div_tb;
 
 architecture testbench of clk_div_tb is
     component clk_div_n
+        generic(cnt_len: integer);
         port(clk_in, rst: in std_logic;
-             n: in clk_div_n_vec;
+             n: in std_logic_vector(2 downto 0);
              clk_out: inout std_logic);
     end component;
     signal clk, clk_out, rst: std_logic;
-    signal n: clk_div_n_vec := (others => '0');
+    signal n: std_logic_vector(2 downto 0) := (others => '0');
 begin
 
-    uut: clk_div_n port map(clk, rst, n, clk_out);
+    uut: clk_div_n
+        generic map(cnt_len => 3)
+        port map(clk, rst, n, clk_out);
     
     clk_process: process
     begin
@@ -34,7 +37,7 @@ begin
         wait for 1 ns;
         rst <= '0';
         wait for 1 ns;
-        n(6 downto 0) <= "1100011";
+        n <= "111";
         wait for 5 us;
         assert false report "Simulation finished" severity failure;
     end process;

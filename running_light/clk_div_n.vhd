@@ -4,8 +4,9 @@ use ieee.std_logic_1164.all;
 use work.const_types_pkg.all;
 
 entity clk_div_n is
+    generic (cnt_len: integer := 26);
     port(clk_in, rst: in std_logic;
-         n: in clk_div_n_vec;
+         n: in std_logic_vector(cnt_len - 1 downto 0);
          clk_out: inout std_logic);
 end clk_div_n;
 
@@ -14,7 +15,7 @@ architecture behave of clk_div_n is
         port(clk_in, toggle, rst: in std_logic;
              clk_out: inout std_logic);
     end component;
-    signal cnt, toggle_vec: clk_div_n_vec;
+    signal cnt, toggle_vec: std_logic_vector(cnt_len - 1 downto 0);
     signal rst_togglers, rst_cnt: std_logic;
 
 begin

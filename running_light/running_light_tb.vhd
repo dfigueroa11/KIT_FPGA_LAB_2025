@@ -9,14 +9,14 @@ end running_light_tb;
 architecture testbench of running_light_tb is
     component running_light
         port(clk, start, stop_sys, rst, load_pattern: in std_logic;
-             dip_sws: in dip_sw_vector;
+             dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
              seven_seg0, seven_seg1: out seven_seg_disp;
-             leds: out led_vector);
+             leds: out std_logic_vector(num_lights - 1 downto 0));
     end component;
     signal clk, start, stop_sys, rst, load_pattern: std_logic;
-    signal dip_sws: dip_sw_vector;
+    signal dip_sws: std_logic_vector(num_dip_sws - 1 downto 0);
     signal seven_seg0, seven_seg1: seven_seg_disp;
-    signal leds: led_vector;
+    signal leds: std_logic_vector(num_lights - 1 downto 0);
 begin
 
     uut: running_light port map (clk, start, stop_sys, rst, load_pattern, dip_sws, seven_seg0, seven_seg1, leds);
