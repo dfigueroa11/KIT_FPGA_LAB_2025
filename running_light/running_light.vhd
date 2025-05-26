@@ -47,7 +47,7 @@ begin
     clk_div1: clk_div_n port map(leds_clk, rst_clk_div1, num_lights_bit_vec, inc_cnt);
     lr_rr: lr_ring_reg port map(leds_clk, load, dir, pattern_in, pattern_out);
     
-    leds_vel <= (3 downto 0 => '1', others => '0'); -- implement it as a ROM later
+    leds_vel <= (2 downto 0 => '1', others => '0'); -- implement it as a ROM later
     leds <= pattern_out;
 
     -- do something with dir
@@ -72,10 +72,8 @@ begin
             rst_clk_div0 <= '1';
             rst_clk_div1 <= '1';
             if start = '1' then
-                rst_dec_cnt <= '1';
                 next_state <= ss_run_light;
             elsif load_pattern = '1' then
-                rst_dec_cnt <= '1';
                 next_state <= ss_load_pattern;
             end if;
         when ss_run_light =>

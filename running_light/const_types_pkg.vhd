@@ -23,7 +23,7 @@ package const_types_pkg is
     subtype dip_sw_vector is std_logic_vector (7 downto 0);
     
     constant num_lights: integer := 8;
-    constant num_lights_bit_vec: clk_div_n_vec := (3 downto 0 => '1', others => '0');
+    constant num_lights_bit_vec: clk_div_n_vec := (2 downto 0 => '1', others => '0');
     subtype led_vector is std_logic_vector (num_lights-1 downto 0);
     type direction is (left, right);
 end package;
