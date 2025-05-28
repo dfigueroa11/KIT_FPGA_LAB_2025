@@ -92,6 +92,9 @@ begin
         wait for 1 ns;
         rst <= '0';
         wait for 10 ns;
+        start <= '1';
+        wait for 1 ns;
+        start <= '0';
         dip_sws <= "000000000000101111";
         wait for 3 us;
         assert false report "Simulation finished" severity failure;

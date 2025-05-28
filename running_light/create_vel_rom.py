@@ -2,10 +2,10 @@ import numpy as np
 
 run_min_freq = 1        # equivalent to 8 fps
 run_max_freq = 10       # equivalent to 80 fps
-num_adr_bits = 8
+num_adr_bits = 2
 
 num_steps = 2 ** num_adr_bits
-fpga_clk_freq = 50e6
+fpga_clk_freq = 100
 num_leds = 8
 
 min_led_clk_freq = run_min_freq * num_leds

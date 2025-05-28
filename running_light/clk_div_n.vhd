@@ -34,11 +34,14 @@ begin
 				if cnt = n then
 					clk_out <= '1';
 					rst_cnt <= '1';
-				else
+                    else
 					clk_out <= '0';
 					rst_cnt <= '0';
 				end if;
-        end if;
+                    else
+					clk_out <= '0';
+					rst_cnt <= '0';
+				end if;
     end process;
 
 end behave;

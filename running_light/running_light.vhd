@@ -37,7 +37,7 @@ architecture behave of running_light is
     end component;
 
     signal rst, start, stop_sys, load_pattern: std_logic;
-    signal rst_dec_cnt, rst_clk_div0, rst_clk_div1: std_logic;
+    signal rst_dec_cnt, rst_clk_div0, rst_clk_cnt: std_logic;
     signal inc_cnt, leds_clk, load: std_logic;
     signal cnt_runs: digit_array (num_sev_seg - 1 downto 0);
     signal speed: std_logic_vector(clk_div0_len - 1 downto 0);
@@ -55,9 +55,9 @@ begin
     clk_div0: clk_div_n
         generic map(cnt_len => clk_div0_len)
         port map(clk, rst_clk_div0, speed, leds_clk);
-    clk_div1: clk_div_n
-        generic map(cnt_len => clk_div1_len)
-        port map(leds_clk, rst_clk_div1, num_lights_bit_vec, inc_cnt);
+    clk_cnt: clk_div_n
+        generic map(cnt_len => clk_cnt_len)
+        port map(leds_clk, rst_clk_cnt, num_lights_bit_vec, inc_cnt);
     lr_rr: lr_ring_reg
         generic map(num_cells => num_lights)
         port map(leds_clk, load, dir, pattern_in, pattern_out);
@@ -65,11 +65,23 @@ begin
     speed <= speeds(to_integer(unsigned(dip_sws(adr_len - 1 downto 0))));
     leds_speed <= dip_sws(adr_len - 1 downto 0);
     leds <= pattern_out;
-    dir <= left;
     rst <= not rst_fpga;
     start <= not start_fpga;
     stop_sys <= not stop_sys_fpga;
     load_pattern <= not load_pattern_fpga;
+
+    process (inc_cnt, rst)
+    begin
+        if rst = '1' then
+            dir <= left;
+        elsif inc_cnt'event and inc_cnt = '1' then
+            if dir = left then
+                dir <= right;
+            else
+                dir <= left;
+            end if;
+        end if;
+    end process;
 
     process(curr_state, start, load_pattern, stop_sys, dip_sws)
     begin
@@ -79,7 +91,7 @@ begin
                 load <= '1';
                 rst_dec_cnt <= '1';
                 rst_clk_div0 <= '1';
-                rst_clk_div1 <= '1';
+                rst_clk_cnt <= '1';
                 if start = '1' then
                     next_state <= ss_run_light;
                 elsif load_pattern = '1' then
@@ -92,7 +104,7 @@ begin
                 load <= '0';
                 rst_dec_cnt <= '0';
                 rst_clk_div0 <= '1';
-                rst_clk_div1 <= '1';
+                rst_clk_cnt <= '1';
                 if start = '1' then
                     next_state <= ss_run_light;
                 elsif load_pattern = '1' then
@@ -105,7 +117,7 @@ begin
                 load <= '0';
                 rst_dec_cnt <= '0';
                 rst_clk_div0 <= '0';
-                rst_clk_div1 <= '0';
+                rst_clk_cnt <= '0';
                 if stop_sys = '1' then
                     next_state <= ss_stop_sys;
                 elsif load_pattern = '1' then
@@ -117,7 +129,7 @@ begin
                 pattern_in <= dip_sws;
                 rst_dec_cnt <= '1';
                 rst_clk_div0 <= '1';
-                rst_clk_div1 <= '1';
+                rst_clk_cnt <= '1';
                 if start = '1' then
                     load <= '0';
                     next_state <= ss_run_light;
