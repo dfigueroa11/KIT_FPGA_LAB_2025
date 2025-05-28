@@ -5,7 +5,7 @@ use work.const_types_pkg.all;
 
 entity seven_segments is
   port (digit_in: in digit;
-        seven_seg_leds: out seven_seg_disp);
+        seven_seg_leds: out sev_seg_disp);
 end seven_segments;
 
 architecture behave of seven_segments is

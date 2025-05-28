@@ -2,24 +2,32 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 use work.const_types_pkg.all;
+use work.speed_rom.all;
 
 entity running_light_tb is
 end running_light_tb;
 
 architecture testbench of running_light_tb is
     component running_light
-        port(clk, start, stop_sys, rst, load_pattern: in std_logic;
-             dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
-             seven_seg0, seven_seg1: out seven_seg_disp;
-             leds: out std_logic_vector(num_lights - 1 downto 0));
+        port(clk, start_fpga, stop_sys_fpga, rst_fpga, load_pattern_fpga: in std_logic;
+            dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
+            seven_segs: out sev_seg_disp_array;
+            leds: out std_logic_vector(num_lights - 1 downto 0);
+            leds_speed: out std_logic_vector(adr_len - 1 downto 0));
     end component;
     signal clk, start, stop_sys, rst, load_pattern: std_logic;
+    signal start_n, stop_sys_n, rst_n, load_pattern_n: std_logic;
     signal dip_sws: std_logic_vector(num_dip_sws - 1 downto 0);
-    signal seven_seg0, seven_seg1: seven_seg_disp;
+    signal seven_segs: sev_seg_disp_array;
     signal leds: std_logic_vector(num_lights - 1 downto 0);
+    signal leds_speed: std_logic_vector(adr_len - 1 downto 0);
 begin
-
-    uut: running_light port map (clk, start, stop_sys, rst, load_pattern, dip_sws, seven_seg0, seven_seg1, leds);
+    start_n <= not start;
+    stop_sys_n <= not stop_sys;
+    rst_n <= not rst;
+    load_pattern_n <= not load_pattern;
+    
+    uut: running_light port map (clk, start_n, stop_sys_n, rst_n, load_pattern_n, dip_sws, seven_segs, leds, leds_speed);
     
     clk_process: process
     begin
@@ -37,26 +45,26 @@ begin
         start <= '0';
         stop_sys <= '0';
         load_pattern <= '0';
-        dip_sws <= "00111111";
+        dip_sws <= "000000000000111111";
         wait for 1 ns;
         rst <= '0';
         start <= '1';
         wait for 1 ns;
         start <= '0';
         wait for 1 ns;
-        dip_sws <= "00100100";
+        dip_sws <= "000000000000100100";
         wait for 100 ns;
         load_pattern <= '1';
         wait for 1 ns;
         load_pattern <= '0';
         wait for 5 ns;
-        dip_sws <= "01100100";
+        dip_sws <= "000000000001100100";
         wait for 3 ns; 
-        dip_sws <= "11100111";
+        dip_sws <= "000000000011100111";
         wait for 1.3 ns; 
-        dip_sws <= "00000111";
+        dip_sws <= "000000000000000111";
         wait for 1.3 ns; 
-        dip_sws <= "11110000";
+        dip_sws <= "000000000011110000";
         wait for 1 ns;
         start <= '1';
         wait for 1 ns;
@@ -84,7 +92,7 @@ begin
         wait for 1 ns;
         rst <= '0';
         wait for 10 ns;
-        dip_sws <= "00101111";
+        dip_sws <= "000000000000101111";
         wait for 3 us;
         assert false report "Simulation finished" severity failure;
     end process;
