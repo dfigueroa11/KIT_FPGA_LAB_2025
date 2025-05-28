@@ -30,12 +30,14 @@ begin
     
     process (clk_in)
     begin
-        if clk_in'event and clk_in = '1' and cnt = n then
-            clk_out <= '1';
-            rst_cnt <= '1';
-        else
-            clk_out <= '0';
-            rst_cnt <= '0';
+        if clk_in'event and clk_in = '1' then
+				if cnt = n then
+					clk_out <= '1';
+					rst_cnt <= '1';
+				else
+					clk_out <= '0';
+					rst_cnt <= '0';
+				end if;
         end if;
     end process;
 

@@ -77,17 +77,24 @@ begin
                 next_state <= ss_run_light;
             elsif load_pattern = '1' then
                 next_state <= ss_load_pattern;
+				else
+					 next_state <= ss_reset;
             end if;
         when ss_stop_sys =>
+				pattern_in <= (others => '0');
             load <= '0';
+				rst_dec_cnt <= '0';
             rst_clk_div0 <= '1';
             rst_clk_div1 <= '1';
             if start = '1' then
                 next_state <= ss_run_light;
             elsif load_pattern = '1' then
                 next_state <= ss_load_pattern;
+				else
+					 next_state <= ss_stop_sys;
             end if;
         when ss_run_light =>
+            pattern_in <= (others => '0');
             load <= '0';
             rst_dec_cnt <= '0';
             rst_clk_div0 <= '0';
@@ -96,6 +103,8 @@ begin
                 next_state <= ss_stop_sys;
             elsif load_pattern = '1' then
                 next_state <= ss_load_pattern;
+				else
+					 next_state <= ss_run_light;
             end if;
         when ss_load_pattern =>
             pattern_in <= dip_sws;
@@ -105,6 +114,8 @@ begin
             rst_clk_div1 <= '1';
             if start = '1' then
                 next_state <= ss_run_light;
+				else
+					 next_state <= ss_load_pattern;
             end if;
         end case;
     end process;
