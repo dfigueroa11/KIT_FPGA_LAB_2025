@@ -6,7 +6,7 @@ use work.const_types_pkg.all;
 use work.velocities_rom.all;
 
 entity running_light is
-    port(clk, start, stop_sys, rst, load_pattern: in std_logic;
+    port(clk, start_fpga, stop_sys_fpga, rst_fpga, load_pattern_fpga: in std_logic;
          dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
          seven_seg0, seven_seg1: out seven_seg_disp;
          leds: out std_logic_vector(num_lights - 1 downto 0));
@@ -34,7 +34,8 @@ architecture behave of running_light is
         port(increment, rst: in std_logic;
              cnt_out: inout digit_array);
     end component;
-
+	 
+	 signal rst, start, stop_sys, load_pattern: std_logic;
     signal rst_dec_cnt, rst_clk_div0, rst_clk_div1: std_logic;
     signal inc_cnt, leds_clk, load: std_logic;
     signal cnt_runs: digit_array;
@@ -63,7 +64,11 @@ begin
     leds_vel <= velocities(to_integer(unsigned(dip_sws(adr_len - 1 downto 0))));
     leds <= pattern_out;
     dir <= left;
-
+	 rst <= not rst_fpga;
+	 start <= not start_fpga;
+	 stop_sys <= not stop_sys_fpga;
+	 load_pattern <= not load_pattern_fpga;
+	 
     process(curr_state, start, load_pattern, stop_sys, dip_sws)
     begin
         case curr_state is
@@ -108,14 +113,15 @@ begin
             end if;
         when ss_load_pattern =>
             pattern_in <= dip_sws;
-            load <= '1';
             rst_dec_cnt <= '1';
             rst_clk_div0 <= '1';
             rst_clk_div1 <= '1';
             if start = '1' then
+					 load <= '0';
                 next_state <= ss_run_light;
 				else
-					 next_state <= ss_load_pattern;
+					 load <= '1';
+            	 next_state <= ss_load_pattern;
             end if;
         end case;
     end process;
