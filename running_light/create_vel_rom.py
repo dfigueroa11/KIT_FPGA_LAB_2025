@@ -1,7 +1,7 @@
 import numpy as np
 
-run_min_freq = 1
-run_max_freq = 10
+run_min_freq = 0.1
+run_max_freq = 5
 num_adr_bits = 5
 
 num_steps = 2 ** num_adr_bits
