@@ -10,8 +10,8 @@ num_leds = 18
 
 min_led_clk_freq = run_min_freq * num_leds
 max_led_clk_freq = run_max_freq * num_leds
-led_clk_freq_range = np.linspace(min_led_clk_freq, max_led_clk_freq, num_steps)
-# led_clk_freq_range = np.geomspace(min_led_clk_freq, max_led_clk_freq, num_steps)
+# led_clk_freq_range = np.linspace(min_led_clk_freq, max_led_clk_freq, num_steps)
+led_clk_freq_range = np.geomspace(min_led_clk_freq, max_led_clk_freq, num_steps)
 
 cnt_div_clk = (fpga_clk_freq // led_clk_freq_range).astype(np.int64)
 num_cnt_bits = len(bin(cnt_div_clk.max()))
