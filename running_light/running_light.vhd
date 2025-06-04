@@ -72,25 +72,25 @@ begin
     stop_sys <= not stop_sys_fpga;
     load_pattern <= not load_pattern_fpga;
 
-    process(inc_cnt)
+    process(inc_cnt, dir_mode, dir)
     begin
-        if inc_cnt'event and inc_cnt = '1' then
-            if dir_mode(0) = '1' then
-                dir <= left;
-                leds_status(adr_len + 2 downto adr_len) <= "001";
-            elsif dir_mode(1) = '1' then
-                dir <= right;
-                leds_status(adr_len + 2 downto adr_len) <= "010";
-            elsif dir_mode(2) = '1' then
+        if dir_mode = "000" then
+            leds_status(adr_len + 2 downto adr_len) <= "001";
+            dir <= left;
+        elsif dir_mode(0) = '1' then
+            dir <= left;
+            leds_status(adr_len + 2 downto adr_len) <= "001";
+        elsif dir_mode(1) = '1' then
+            dir <= right;
+            leds_status(adr_len + 2 downto adr_len) <= "010";
+        else
+            leds_status(adr_len + 2 downto adr_len) <= "100";
+            if inc_cnt'event and inc_cnt = '1' then
                 if dir = left then
                     dir <= right;
                 else
                     dir <= left;
                 end if;
-                leds_status(adr_len + 2 downto adr_len) <= "100";
-            else
-                dir <= left;
-                leds_status(adr_len + 2 downto adr_len) <= "001";
             end if;
         end if;
     end process;
