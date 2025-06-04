@@ -17,14 +17,13 @@ architecture behave of running_light is
     component lr_ring_reg
         generic (num_cells: integer);
         port (clk, load: in std_logic;
-            dir: in direction;
             pattern_in: in std_logic_vector(num_lights - 1 downto 0);
             pattern_out: inout std_logic_vector(num_lights - 1 downto 0));
     end component;
     component clk_div_n
-        generic (cnt_len: integer);
+        generic (CNT_WIDTH: integer);
         port (clk_in, rst: in std_logic;
-            n: in std_logic_vector;
+            n: in unsigned;
             clk_out: inout std_logic);
     end component;
     component seven_segments
@@ -37,11 +36,10 @@ architecture behave of running_light is
     end component;
 
     signal rst, start, stop_sys, load_pattern: std_logic;
-    signal rst_dec_cnt, rst_clk_div0, rst_clk_cnt: std_logic;
+    signal rst_dec_cnt, rst_clk_leds, rst_clk_cnt: std_logic;
     signal inc_cnt, leds_clk, load: std_logic;
     signal cnt_runs: digit_array (num_sev_seg - 1 downto 0);
-    signal speed: std_logic_vector(clk_div0_len - 1 downto 0);
-    signal dir: direction;
+    signal speed: unsigned(clk_leds_cnt_len - 1 downto 0);
     signal pattern_in, pattern_out: std_logic_vector(num_lights - 1 downto 0);
     type state is (ss_reset, ss_stop_sys, ss_run_light, ss_load_pattern);
     signal curr_state, next_state: state;
@@ -52,15 +50,15 @@ begin
     gen_ss : for i in 0 to num_sev_seg - 1 generate
         ssx: seven_segments port map(cnt_runs(i), seven_segs(i));
     end generate;
-    clk_div0: clk_div_n
-        generic map(cnt_len => clk_div0_len)
-        port map(clk, rst_clk_div0, speed, leds_clk);
+    clk_leds: clk_div_n
+        generic map(CNT_WIDTH => clk_leds_cnt_len)
+        port map(clk, rst_clk_leds, speed, leds_clk);
     clk_cnt: clk_div_n
-        generic map(cnt_len => clk_cnt_len)
+        generic map(CNT_WIDTH => clk_cnt_len)
         port map(leds_clk, rst_clk_cnt, num_lights_bit_vec, inc_cnt);
     lr_rr: lr_ring_reg
         generic map(num_cells => num_lights)
-        port map(leds_clk, load, dir, pattern_in, pattern_out);
+        port map(leds_clk, load, pattern_in, pattern_out);
 
     speed <= speeds(to_integer(unsigned(dip_sws(adr_len - 1 downto 0))));
     leds_speed <= dip_sws(adr_len - 1 downto 0);
@@ -70,19 +68,6 @@ begin
     stop_sys <= not stop_sys_fpga;
     load_pattern <= not load_pattern_fpga;
 
-    process (inc_cnt, rst)
-    begin
-        if rst = '1' then
-            dir <= left;
-        elsif inc_cnt'event and inc_cnt = '1' then
-            if dir = left then
-                dir <= right;
-            else
-                dir <= left;
-            end if;
-        end if;
-    end process;
-
     process(curr_state, start, load_pattern, stop_sys, dip_sws)
     begin
         case curr_state is
@@ -90,7 +75,7 @@ begin
                 pattern_in <= (num_lights - 1 => '1', others => '0');
                 load <= '1';
                 rst_dec_cnt <= '1';
-                rst_clk_div0 <= '1';
+                rst_clk_leds <= '1';
                 rst_clk_cnt <= '1';
                 if start = '1' then
                     next_state <= ss_run_light;
@@ -103,7 +88,7 @@ begin
                 pattern_in <= (others => '0');
                 load <= '0';
                 rst_dec_cnt <= '0';
-                rst_clk_div0 <= '1';
+                rst_clk_leds <= '1';
                 rst_clk_cnt <= '1';
                 if start = '1' then
                     next_state <= ss_run_light;
@@ -116,7 +101,7 @@ begin
                 pattern_in <= (others => '0');
                 load <= '0';
                 rst_dec_cnt <= '0';
-                rst_clk_div0 <= '0';
+                rst_clk_leds <= '0';
                 rst_clk_cnt <= '0';
                 if stop_sys = '1' then
                     next_state <= ss_stop_sys;
@@ -128,7 +113,7 @@ begin
             when ss_load_pattern =>
                 pattern_in <= dip_sws;
                 rst_dec_cnt <= '1';
-                rst_clk_div0 <= '1';
+                rst_clk_leds <= '1';
                 rst_clk_cnt <= '1';
                 if start = '1' then
                     load <= '0';

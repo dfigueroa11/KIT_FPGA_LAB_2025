@@ -24,7 +24,7 @@ package const_types_pkg is
     constant ss_disp_8: sev_seg_disp := "0000000";
     constant ss_disp_9: sev_seg_disp := "0000100";
 
-    constant num_lights_bit_vec: std_logic_vector(clk_cnt_len - 1 downto 0) := std_logic_vector(to_unsigned(num_lights - 2, clk_cnt_len));
+    constant num_lights_bit_vec: unsigned(clk_cnt_len - 1 downto 0) := to_unsigned(num_lights, clk_cnt_len);
     type direction is (left, right);
 end package;
 
