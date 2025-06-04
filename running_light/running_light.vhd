@@ -10,7 +10,7 @@ entity running_light is
         dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
         seven_segs: out sev_seg_disp_array;
         leds: out std_logic_vector(num_lights - 1 downto 0);
-        leds_speed: out std_logic_vector(adr_len - 1 downto 0));
+        leds_status: out std_logic_vector(adr_len + 2 downto 0));
 end running_light;
 
 architecture behave of running_light is
@@ -18,7 +18,7 @@ architecture behave of running_light is
         generic (num_cells: integer);
         port (clk, load: in std_logic;
             pattern_in: in std_logic_vector(num_lights - 1 downto 0);
-            pattern_out: inout std_logic_vector(num_lights - 1 downto 0));
+            pattern_out_l, pattern_out_r: inout std_logic_vector(num_lights - 1 downto 0));
     end component;
     component clk_div_n
         generic (CNT_WIDTH: integer);
@@ -40,9 +40,11 @@ architecture behave of running_light is
     signal inc_cnt, leds_clk, load: std_logic;
     signal cnt_runs: digit_array (num_sev_seg - 1 downto 0);
     signal speed: unsigned(clk_leds_cnt_len - 1 downto 0);
-    signal pattern_in, pattern_out: std_logic_vector(num_lights - 1 downto 0);
+    signal pattern_in, pattern_out_l, pattern_out_r: std_logic_vector(num_lights - 1 downto 0);
     type state is (ss_reset, ss_stop_sys, ss_run_light, ss_load_pattern);
     signal curr_state, next_state: state;
+    signal dir: direction := left;
+    signal dir_mode: std_logic_vector(2 downto 0);
 
 begin
     dec_cnt: decimal_cnt
@@ -58,15 +60,40 @@ begin
         port map(leds_clk, rst_clk_cnt, num_lights_bit_vec, inc_cnt);
     lr_rr: lr_ring_reg
         generic map(num_cells => num_lights)
-        port map(leds_clk, load, pattern_in, pattern_out);
+        port map(leds_clk, load, pattern_in, pattern_out_l, pattern_out_r);
 
     speed <= speeds(to_integer(unsigned(dip_sws(adr_len - 1 downto 0))));
-    leds_speed <= dip_sws(adr_len - 1 downto 0);
-    leds <= pattern_out;
+    dir_mode <= dip_sws(adr_len + 2 downto adr_len);
+    leds_status(adr_len - 1 downto 0) <= dip_sws(adr_len - 1 downto 0);
+    leds <= pattern_out_l when dir = left else
+            pattern_out_r when dir = right;
     rst <= not rst_fpga;
     start <= not start_fpga;
     stop_sys <= not stop_sys_fpga;
     load_pattern <= not load_pattern_fpga;
+
+    process(inc_cnt)
+    begin
+        if inc_cnt'event and inc_cnt = '1' then
+            if dir_mode(0) = '1' then
+                dir <= left;
+                leds_status(adr_len + 2 downto adr_len) <= "001";
+            elsif dir_mode(1) = '1' then
+                dir <= right;
+                leds_status(adr_len + 2 downto adr_len) <= "010";
+            elsif dir_mode(2) = '1' then
+                if dir = left then
+                    dir <= right;
+                else
+                    dir <= left;
+                end if;
+                leds_status(adr_len + 2 downto adr_len) <= "100";
+            else
+                dir <= left;
+                leds_status(adr_len + 2 downto adr_len) <= "001";
+            end if;
+        end if;
+    end process;
 
     process(curr_state, start, load_pattern, stop_sys, dip_sws)
     begin

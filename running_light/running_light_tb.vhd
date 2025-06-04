@@ -13,14 +13,14 @@ architecture testbench of running_light_tb is
             dip_sws: in std_logic_vector(num_dip_sws - 1 downto 0);
             seven_segs: out sev_seg_disp_array;
             leds: out std_logic_vector(num_lights - 1 downto 0);
-            leds_speed: out std_logic_vector(adr_len - 1 downto 0));
+            leds_status: out std_logic_vector(adr_len + 2 downto 0));
     end component;
     signal clk, start, stop_sys, rst, load_pattern: std_logic;
     signal start_n, stop_sys_n, rst_n, load_pattern_n: std_logic;
     signal dip_sws: std_logic_vector(num_dip_sws - 1 downto 0);
     signal seven_segs: sev_seg_disp_array;
     signal leds: std_logic_vector(num_lights - 1 downto 0);
-    signal leds_speed: std_logic_vector(adr_len - 1 downto 0);
+    signal leds_speed: std_logic_vector(adr_len + 2 downto 0);
 begin
     start_n <= not start;
     stop_sys_n <= not stop_sys;
@@ -95,8 +95,14 @@ begin
         start <= '1';
         wait for 1 ns;
         start <= '0';
-        dip_sws <= "000000000000101111";
-        wait for 3 us;
+        dip_sws <= "000000000000100011";
+        wait for 200 ns;
+        dip_sws <= "000000000000100111";
+        wait for 200 ns;
+        dip_sws <= "000000000000101011";
+        wait for 200 ns;
+        dip_sws <= "000000000000110011";
+        wait for 500 ns;
         assert false report "Simulation finished" severity failure;
     end process;
 
