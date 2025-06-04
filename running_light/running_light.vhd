@@ -24,7 +24,7 @@ architecture behave of running_light is
         generic (CNT_WIDTH: integer);
         port (clk_in, rst: in std_logic;
             n: in unsigned;
-            clk_out: inout std_logic);
+            clk_out: out std_logic);
     end component;
     component seven_segments
         port (digit_in: in digit;

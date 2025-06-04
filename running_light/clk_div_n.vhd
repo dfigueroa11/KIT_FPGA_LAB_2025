@@ -14,9 +14,9 @@ entity clk_div_n is
 end clk_div_n;
 
 architecture rtl of clk_div_n is
-    signal cnt: unsigned(CNT_WIDTH-1 downto 0) := (others => '0');
-    signal pulse_reg: std_logic := '0';
-    signal n_prev: unsigned(CNT_WIDTH-1 downto 0) := (others => '0');
+    signal cnt: unsigned(CNT_WIDTH-1 downto 0);
+    signal pulse_reg: std_logic;
+    signal n_prev: unsigned(CNT_WIDTH-1 downto 0);
 begin
 
     process(clk_in, rst, n)
@@ -24,10 +24,10 @@ begin
         if rst = '1' then
             cnt <= (others => '0');
             pulse_reg <= '0';
-            n_prev <= n;
+            --n_prev <= n;
         elsif clk_in'event and clk_in = '1' then
             if n /= n_prev then
-                cnt <= (others => '0');
+                cnt <= to_unsigned(1, CNT_WIDTH);
                 pulse_reg <= '0';
                 n_prev <= n;
             elsif cnt = (n - 1) then
