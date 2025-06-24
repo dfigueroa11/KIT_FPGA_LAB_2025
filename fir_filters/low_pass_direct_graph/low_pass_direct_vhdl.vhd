@@ -25,7 +25,7 @@ begin
                 taps(i) <= to_signed(0, adc_width);
             end loop;
         elsif clk'event and clk = '1' then
-            sig_out <= taps(2) / 4 + taps(2) / 2 + taps(0) / 4;
+            sig_out <= taps(2) / 4 + taps(1) / 2 + taps(0) / 4;
             for i in 1 to fir_order loop
                 taps(i) <= taps(i - 1);
             end loop;
