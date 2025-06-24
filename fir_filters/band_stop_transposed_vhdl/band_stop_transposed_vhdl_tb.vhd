@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.types_pkg.all;
+use work.const_types_pkg.all;
 
 entity band_stop_transposed_vhdl_tb is
 end band_stop_transposed_vhdl_tb;
