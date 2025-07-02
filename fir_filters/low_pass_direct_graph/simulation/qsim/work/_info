@@ -1,0 +1,81 @@
+m255
+K3
+13
+cModel Technology
+Z0 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\low_pass_direct_graph\simulation\qsim
+vlow_pass_direct_graph
+Z1 !s100 iV@7ed:g8U[eSb7kYHoWF3
+Z2 I`L4cH6jl<eZN7QZKHLO^C3
+Z3 VKhaiH@S:mikZQo8nE]??R1
+Z4 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\low_pass_direct_graph\simulation\qsim
+Z5 w1751468440
+Z6 8low_pass_direct_graph.vo
+Z7 Flow_pass_direct_graph.vo
+L0 31
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s90 -work|work|low_pass_direct_graph.vo|
+Z10 o-work work -O0
+!i10b 1
+!s85 0
+Z11 !s108 1751468454.951000
+Z12 !s107 low_pass_direct_graph.vo|
+!s101 -O0
+vlow_pass_direct_graph_vlg_check_tst
+!i10b 1
+Z13 !s100 OGD^3=k@`XI:P:TlbWhMS2
+Z14 Iah^CGZYSWJEeIdaGd]7_N0
+Z15 VX]:V>kCF0@]nKmMA08<^h0
+R4
+Z16 w1751468425
+Z17 8Waveform.vwf.vt
+Z18 FWaveform.vwf.vt
+L0 61
+R8
+r1
+!s85 0
+31
+Z19 !s108 1751468460.707000
+Z20 !s107 Waveform.vwf.vt|
+Z21 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R10
+vlow_pass_direct_graph_vlg_sample_tst
+!i10b 1
+Z22 !s100 8IGF3EZo2_m@FC5I;3HZF0
+Z23 IecCXQm@;7oBEz0<bIPL:c2
+Z24 VW`lJ5@S3jkCF<51zCk2>P0
+R4
+R16
+R17
+R18
+L0 29
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10
+vlow_pass_direct_graph_vlg_vec_tst
+!i10b 1
+Z25 !s100 b7F@f_CFAc36H1VSeEP:G0
+Z26 IJEOe?hPXkPle54_5AX32g1
+Z27 V4daTIjcPIN;I@o^`KWnh<3
+R4
+R16
+R17
+R18
+Z28 L0 403
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10

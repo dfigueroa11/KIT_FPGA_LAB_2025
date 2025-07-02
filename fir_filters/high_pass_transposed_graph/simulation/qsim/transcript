@@ -1,0 +1,70 @@
+# do high_pass_transposed_graph.do 
+# ** Warning: (vlib-34) Library already exists at "work".
+# 
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module high_pass_transposed_graph
+# 
+# Top level modules:
+# 	high_pass_transposed_graph
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module high_pass_transposed_graph_vlg_sample_tst
+# -- Compiling module high_pass_transposed_graph_vlg_check_tst
+# -- Compiling module high_pass_transposed_graph_vlg_vec_tst
+# 
+# Top level modules:
+# 	high_pass_transposed_graph_vlg_vec_tst
+# vsim -L cycloneive_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate -c -voptargs=\"+acc\" -t 1ps -novopt work.high_pass_transposed_graph_vlg_vec_tst 
+# Loading work.high_pass_transposed_graph_vlg_vec_tst
+# Loading work.high_pass_transposed_graph
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_clkctrl
+# Loading cycloneive_ver.cycloneive_mux41
+# Loading cycloneive_ver.cycloneive_ena_reg
+# Loading altera_ver.dffeas
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading work.high_pass_transposed_graph_vlg_sample_tst
+# Loading work.high_pass_transposed_graph_vlg_check_tst
+# Loading altera_ver.PRIM_GDFF_LOW
+# ERROR! Vector Mismatch for output port sig_out[1] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[3] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[4] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[5] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[6] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[7] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00000011111010
+# ERROR! Vector Mismatch for output port sig_out[2] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[8] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[9] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[10] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[11] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[12] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+# ERROR! Vector Mismatch for output port sig_out[13] :: @time = 5850000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 11111100000110
+#          13 mismatched vectors : Simulation failed !
+# ** Note: $finish    : Waveform.vwf.vt(399)
+#    Time: 20 us  Iteration: 0  Instance: /high_pass_transposed_graph_vlg_vec_tst/tb_out

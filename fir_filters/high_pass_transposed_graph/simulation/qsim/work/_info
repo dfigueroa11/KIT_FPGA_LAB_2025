@@ -1,0 +1,81 @@
+m255
+K3
+13
+cModel Technology
+Z0 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\high_pass_transposed_graph\simulation\qsim
+vhigh_pass_transposed_graph
+Z1 !s100 YMLhD6cnZZ<HnPZK?61cz1
+Z2 Ia@Fa=b`H?kl7]EnL?9DM12
+Z3 VM5F8b_QPaMKk5RVPN52M90
+Z4 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\high_pass_transposed_graph\simulation\qsim
+Z5 w1751471665
+Z6 8high_pass_transposed_graph.vo
+Z7 Fhigh_pass_transposed_graph.vo
+L0 31
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s90 -work|work|high_pass_transposed_graph.vo|
+Z10 o-work work -O0
+!i10b 1
+!s85 0
+Z11 !s108 1751471671.004000
+Z12 !s107 high_pass_transposed_graph.vo|
+!s101 -O0
+vhigh_pass_transposed_graph_vlg_check_tst
+!i10b 1
+Z13 !s100 C>^?kK]I<a>@^gEJ37[5l2
+Z14 Ib54YLfzA1[J6k3o<dNAB>1
+Z15 Vb`OIH4fQSA7N]Kb_e02Yi0
+R4
+Z16 w1751471655
+Z17 8Waveform.vwf.vt
+Z18 FWaveform.vwf.vt
+L0 61
+R8
+r1
+!s85 0
+31
+Z19 !s108 1751471672.200000
+Z20 !s107 Waveform.vwf.vt|
+Z21 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R10
+vhigh_pass_transposed_graph_vlg_sample_tst
+!i10b 1
+Z22 !s100 bDaB2]bSNJW;cn9_X@[f?1
+Z23 IoBo=gbKmKhDoA==Ke3B_P1
+Z24 V]OTQHkfE`7BP<DUZ`ZTT>3
+R4
+R16
+R17
+R18
+L0 29
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10
+vhigh_pass_transposed_graph_vlg_vec_tst
+!i10b 1
+Z25 !s100 GKLgD6d@PGGgXN04fAki01
+Z26 ID=70C_MeATK?`N];1_;fg1
+Z27 VeZe0l];miZ]bM:KHY3mYe3
+R4
+R16
+R17
+R18
+Z28 L0 403
+R8
+r1
+!s85 0
+31
+R19
+R20
+R21
+!s101 -O0
+R10
