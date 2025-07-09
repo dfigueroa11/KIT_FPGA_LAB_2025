@@ -51,8 +51,8 @@ END lpm_mult0;
 ARCHITECTURE SYN OF lpm_mult0 IS
 
 	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (13 DOWNTO 0);
-	SIGNAL sub_wire1_bv	: BIT_VECTOR (3 DOWNTO 0);
-	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (3 DOWNTO 0);
+	SIGNAL sub_wire1_bv	: BIT_VECTOR (2 DOWNTO 0);
+	SIGNAL sub_wire1	: STD_LOGIC_VECTOR (2 DOWNTO 0);
 
 
 
@@ -67,13 +67,13 @@ ARCHITECTURE SYN OF lpm_mult0 IS
 	);
 	PORT (
 			dataa	: IN STD_LOGIC_VECTOR (13 DOWNTO 0);
-			datab	: IN STD_LOGIC_VECTOR (3 DOWNTO 0);
+			datab	: IN STD_LOGIC_VECTOR (2 DOWNTO 0);
 			result	: OUT STD_LOGIC_VECTOR (13 DOWNTO 0)
 	);
 	END COMPONENT;
 
 BEGIN
-	sub_wire1_bv(3 DOWNTO 0) <= "0010";
+	sub_wire1_bv(2 DOWNTO 0) <= "001";
 	sub_wire1    <= To_stdlogicvector(sub_wire1_bv);
 	result    <= sub_wire0(13 DOWNTO 0);
 
@@ -83,7 +83,7 @@ BEGIN
 		lpm_representation => "SIGNED",
 		lpm_type => "LPM_MULT",
 		lpm_widtha => 14,
-		lpm_widthb => 4,
+		lpm_widthb => 3,
 		lpm_widthp => 14
 	)
 	PORT MAP (
@@ -101,7 +101,7 @@ END SYN;
 -- ============================================================
 -- Retrieval info: PRIVATE: AutoSizeResult NUMERIC "0"
 -- Retrieval info: PRIVATE: B_isConstant NUMERIC "1"
--- Retrieval info: PRIVATE: ConstantB NUMERIC "2"
+-- Retrieval info: PRIVATE: ConstantB NUMERIC "1"
 -- Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 -- Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC "0"
 -- Retrieval info: PRIVATE: Latency NUMERIC "0"
@@ -110,7 +110,7 @@ END SYN;
 -- Retrieval info: PRIVATE: USE_MULT NUMERIC "1"
 -- Retrieval info: PRIVATE: ValidConstant NUMERIC "1"
 -- Retrieval info: PRIVATE: WidthA NUMERIC "14"
--- Retrieval info: PRIVATE: WidthB NUMERIC "4"
+-- Retrieval info: PRIVATE: WidthB NUMERIC "3"
 -- Retrieval info: PRIVATE: WidthP NUMERIC "14"
 -- Retrieval info: PRIVATE: aclr NUMERIC "0"
 -- Retrieval info: PRIVATE: clken NUMERIC "0"
@@ -121,12 +121,12 @@ END SYN;
 -- Retrieval info: CONSTANT: LPM_REPRESENTATION STRING "SIGNED"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_MULT"
 -- Retrieval info: CONSTANT: LPM_WIDTHA NUMERIC "14"
--- Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "4"
+-- Retrieval info: CONSTANT: LPM_WIDTHB NUMERIC "3"
 -- Retrieval info: CONSTANT: LPM_WIDTHP NUMERIC "14"
 -- Retrieval info: USED_PORT: dataa 0 0 14 0 INPUT NODEFVAL "dataa[13..0]"
 -- Retrieval info: USED_PORT: result 0 0 14 0 OUTPUT NODEFVAL "result[13..0]"
 -- Retrieval info: CONNECT: @dataa 0 0 14 0 dataa 0 0 14 0
--- Retrieval info: CONNECT: @datab 0 0 4 0 2 0 0 4 0
+-- Retrieval info: CONNECT: @datab 0 0 3 0 1 0 0 3 0
 -- Retrieval info: CONNECT: result 0 0 14 0 @result 0 0 14 0
 -- Retrieval info: GEN_FILE: TYPE_NORMAL lpm_mult0.vhd TRUE
 -- Retrieval info: GEN_FILE: TYPE_NORMAL lpm_mult0.inc FALSE

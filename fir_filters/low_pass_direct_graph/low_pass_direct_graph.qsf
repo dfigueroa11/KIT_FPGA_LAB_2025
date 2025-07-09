@@ -54,7 +54,7 @@ set_global_assignment -name QIP_FILE lpm_mult0.qip
 set_global_assignment -name QIP_FILE lpm_mult1.qip
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VECTOR_WAVEFORM_FILE Waveform.vwf
 set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR "U:/Documents/KIT_FPGA_LAB_2025/fir_filters/low_pass_direct_graph/simulation/qsim/" -section_id eda_simulation
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

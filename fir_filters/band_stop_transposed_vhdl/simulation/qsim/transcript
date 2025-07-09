@@ -1,0 +1,53 @@
+# do band_stop_transposed_vhdl.do 
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module band_stop_transposed_vhdl
+# 
+# Top level modules:
+# 	band_stop_transposed_vhdl
+# Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+# -- Compiling module band_stop_transposed_vhdl_vlg_sample_tst
+# -- Compiling module band_stop_transposed_vhdl_vlg_check_tst
+# -- Compiling module band_stop_transposed_vhdl_vlg_vec_tst
+# 
+# Top level modules:
+# 	band_stop_transposed_vhdl_vlg_vec_tst
+# vsim -L cycloneive_ver -L altera_ver -L altera_mf_ver -L 220model_ver -L sgate -c -voptargs=\"+acc\" -t 1ps -novopt work.band_stop_transposed_vhdl_vlg_vec_tst 
+# Loading work.band_stop_transposed_vhdl_vlg_vec_tst
+# Loading work.band_stop_transposed_vhdl
+# Loading cycloneive_ver.cycloneive_io_obuf
+# Loading cycloneive_ver.cycloneive_io_ibuf
+# Loading cycloneive_ver.cycloneive_clkctrl
+# Loading cycloneive_ver.cycloneive_mux41
+# Loading cycloneive_ver.cycloneive_ena_reg
+# Loading cycloneive_ver.cycloneive_lcell_comb
+# Loading altera_ver.dffeas
+# Loading work.band_stop_transposed_vhdl_vlg_sample_tst
+# Loading work.band_stop_transposed_vhdl_vlg_check_tst
+# Loading altera_ver.PRIM_GDFF_LOW
+# ERROR! Vector Mismatch for output port sig_out[3] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[5] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[6] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[7] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[8] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[9] :: @time = 5800000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00001111101000
+# ERROR! Vector Mismatch for output port sig_out[4] :: @time = 5900000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00011111010000
+# ERROR! Vector Mismatch for output port sig_out[10] :: @time = 5900000.000 ps
+#      Expected value = 00000000000000
+#      Real value = 00011111010000
+#           8 mismatched vectors : Simulation failed !
+# ** Note: $finish    : Waveform.vwf.vt(399)
+#    Time: 20 us  Iteration: 0  Instance: /band_stop_transposed_vhdl_vlg_vec_tst/tb_out

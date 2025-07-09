@@ -1,0 +1,81 @@
+m255
+K3
+13
+cModel Technology
+Z0 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\band_pass_direct_vhdl\simulation\qsim
+vband_pass_direct_vhdl
+Z1 I`P:XH:IBHcB`cEL[:01Yd3
+Z2 VW72kL?WF2CZ6j4hd4QkjH0
+Z3 dU:\Documents\KIT_FPGA_LAB_2025\fir_filters\band_pass_direct_vhdl\simulation\qsim
+Z4 w1752064428
+Z5 8band_pass_direct_vhdl.vo
+Z6 Fband_pass_direct_vhdl.vo
+L0 31
+Z7 OV;L;10.1d;51
+r1
+31
+Z8 o-work work -O0
+!i10b 1
+Z9 !s100 ^?g;LkZ2Z`W^VY]`c@zeO0
+!s85 0
+Z10 !s108 1752064429.628000
+Z11 !s107 band_pass_direct_vhdl.vo|
+Z12 !s90 -work|work|band_pass_direct_vhdl.vo|
+!s101 -O0
+vband_pass_direct_vhdl_vlg_check_tst
+!i10b 1
+!s100 =ETA@=Sc28[2LAGCj4Dc62
+I@B;[3M`kK5ag:TjPC34hS3
+Vk0ZGOgj2<Ej5h=gQ7JQaB3
+R3
+Z13 w1752064426
+Z14 8Waveform.vwf.vt
+Z15 FWaveform.vwf.vt
+L0 61
+R7
+r1
+!s85 0
+31
+Z16 !s108 1752064429.912000
+Z17 !s107 Waveform.vwf.vt|
+Z18 !s90 -work|work|Waveform.vwf.vt|
+!s101 -O0
+R8
+vband_pass_direct_vhdl_vlg_sample_tst
+!i10b 1
+!s100 ke4Y8]IAlPL[iEXK8]J9D1
+IS64YDRZJNFEYoJ9RVDW>71
+V[6gaVeH_CEKVMb5Uo?<`B0
+R3
+R13
+R14
+R15
+L0 29
+R7
+r1
+!s85 0
+31
+R16
+R17
+R18
+!s101 -O0
+R8
+vband_pass_direct_vhdl_vlg_vec_tst
+!i10b 1
+!s100 b3QQF>8d@5B6Z0Un6^[a53
+II6hO^;L`fiV4B^J6H=H];1
+V1D0`5J1>NzIGid?fHHR?i0
+R3
+R13
+R14
+R15
+L0 403
+R7
+r1
+!s85 0
+31
+R16
+R17
+R18
+!s101 -O0
+R8

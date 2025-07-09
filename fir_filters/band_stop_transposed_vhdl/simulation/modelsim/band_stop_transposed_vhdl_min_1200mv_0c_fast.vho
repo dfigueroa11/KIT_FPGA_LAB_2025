@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.1.0 Build 162 10/23/2013 SJ Full Version"
 
--- DATE "07/02/2025 14:09:19"
+-- DATE "07/09/2025 14:35:48"
 
 -- 
 -- Device: Altera EP4CE115F29C7 Package FBGA780
@@ -38,7 +38,7 @@ ENTITY 	band_stop_transposed_vhdl IS
 	clk : IN std_logic;
 	rst : IN std_logic;
 	sig_in : IN std_logic_vector(13 DOWNTO 0);
-	sig_out : OUT std_logic_vector(13 DOWNTO 0)
+	sig_out : BUFFER std_logic_vector(13 DOWNTO 0)
 	);
 END band_stop_transposed_vhdl;
 

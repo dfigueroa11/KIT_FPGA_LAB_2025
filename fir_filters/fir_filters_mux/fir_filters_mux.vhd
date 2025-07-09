@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 use work.const_types_pkg.all;
 
-entity fir_filters is
+entity fir_filters_mux is
     port (
         clk : in std_logic;
         rst : in std_logic;
@@ -14,17 +14,17 @@ entity fir_filters is
         clk_adc: out std_logic;
         ss_disps: out sev_seg_disps
     );
-end fir_filters;
+end fir_filters_mux;
 
-architecture behave of fir_filters is
+architecture behave of fir_filters_mux is
 
     type fir_options is (band_pass, band_stop, high_pass, low_pass);
     signal fir_select: fir_options;
     
     -- f_clk_adc = f_clk_fpga / div_n
-    constant div_n: integer := 20;      -- fs/2 = 1.25 MHz
-    signal counter: unsigned(4 downto 0);
-    signal clk_reg: std_logic;
+    constant div_n: integer := 25;      -- fs/2 = 500 kHz
+    signal cnt: unsigned(4 downto 0);
+    signal pulse_reg: std_logic;
 
 begin
 
@@ -38,36 +38,41 @@ begin
                 ss_disp_high_pass when fir_select = high_pass else
                 ss_disp_low_pass when fir_select = low_pass;
 
-    process(rst, sws)
+    process(rst, clk)
     begin
         if rst = '1' then
             fir_select <= band_pass;
-        elsif sws(0) = '0' then
-            fir_select <= band_pass;
-        elsif sws(1) = '0' then
-            fir_select <= band_stop;
-        elsif sws(2) = '0' then
-            fir_select <= high_pass;
-        elsif sws(3) = '0' then
-            fir_select <= low_pass;
-        end if;
+		  elsif clk'event and clk = '1' then
+			  if sws(0) = '0' then
+					fir_select <= band_pass;
+			  elsif sws(1) = '0' then
+					fir_select <= band_stop;
+			  elsif sws(2) = '0' then
+					fir_select <= high_pass;
+			  elsif sws(3) = '0' then
+					fir_select <= low_pass;
+			  end if;
+		  end if;
     end process;
 
-    process(clk)
+	 
+	  process(clk, rst)
     begin
-        if clk'event and clk = '1' then
-            if rst = '1' then
-                counter <= (others => '0');
-                clk_reg <= '0';
-            elsif counter = to_unsigned((div_n / 2) - 1, counter'length) then
-                counter <= (others => '0');
-                clk_reg <= not clk_reg;
+        if rst = '1' then
+            cnt <= (others => '0');
+            pulse_reg <= '0';
+            --n_prev <= n;
+        elsif clk'event and clk = '1' then
+            if cnt = to_unsigned(div_n - 1, cnt'length) then
+                cnt <= (others => '0');
+                pulse_reg <= '1';
             else
-                counter <= counter + 1;
+                cnt <= cnt + 1;
+                pulse_reg <= '0';
             end if;
         end if;
     end process;
-
-    clk_adc <= clk_reg;
+	 
+    clk_adc <= pulse_reg;
 
 end architecture;
