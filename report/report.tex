@@ -187,9 +187,7 @@ A package to define some types and constants is also used to improve the readabi
 
 \subsubsection{running\_light}
 
-Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{}. And the different modules are controlled using the FSM seen in figure \ref{}. In general the fast clock of the FPGA is divided by \lstinline{speed}, this clock goes to the \lstinline{lr_ring_reg}, and is also divided to count the number of runs whit the module \lstinline{decimal_cnt}.
-
-The signal going to the leds is taken from a multiplexer depending on the current value \lstinline{dir}, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
+Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{}. And the different modules are controlled using the FSM seen in figure \ref{}. In general the fast clock of the FPGA is divided by \lstinline{speed}, this clock goes to the \lstinline{lr_ring_reg}, and is also divided to count the number of runs whit the module \lstinline{decimal_cnt}. The signal going to the leds is taken from a multiplexer depending on the current value \lstinline{dir}, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
 
 
 %%% TO DO:

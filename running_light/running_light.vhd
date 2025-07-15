@@ -139,14 +139,13 @@ begin
                 end if;
             when ss_load_pattern =>
                 pattern_in <= dip_sws;
+                load <= '1';
                 rst_dec_cnt <= '1';
                 rst_clk_leds <= '1';
                 rst_clk_cnt <= '1';
                 if start = '1' then
-                    load <= '0';
                     next_state <= ss_run_light;
                 else
-                    load <= '1';
                     next_state <= ss_load_pattern;
                 end if;
         end case;
