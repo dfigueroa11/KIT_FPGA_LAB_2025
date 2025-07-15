@@ -171,9 +171,59 @@ A clock divider is needed for different proposes: first to make the effect of th
 
 For this reason an entity for a clock divider is defined, which can change the division number during operation. The code for this module is in listing \ref{code:clk_div_n}. In the entity declaration a generic is used to define the counter width. The only process of the architecture resets the counter \lstinline{cnt} and the pulse to 0 if \lstinline{rst} is 1. Otherwise on a \lstinline{clk_in} rising edge if \lstinline{n} changes, set \lstinline{cnt} to 1 and \lstinline{pulse_reg} to 0, if \lstinline{cnt = n - 1}, \lstinline{cnt} is set again to 0 and \lstinline{pulse_reg} to 1, otherwise \lstinline{cnt} is increased by one and \lstinline{pulse_reg} set to 0. The result is a small positive pulse every \lstinline{n} pulses of \lstinline{clk_in}.
 
+
+
+\begin{figure}[htb]
+    \centering
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+\includegraphics[width=0.5\textwidth]{img/clk_div_n_sym}
+        \caption{\lstinline{clk_dic_n} symbol block}
+        \label{fig:clk_div_n_sym}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.9\textwidth}
+        \centering
+\includegraphics[width=0.5\textwidth]{img/clk_div_n_diag}
+        \caption{\lstinline{clk_dic_n} flow diagram}
+        \label{fig:clk_div_n_diag}
+    \end{subfigure}
+    \caption{\lstinline{clk_dic_n} desing}
+    \label{fig:clk_div_n_figs}
+\end{figure}
+
+
+
+
 \subsubsection{decimal\_cnt}
 
 This module is used to count the number of runs of the light. It is based on the module \lstinline{digint_cnt}, and is just a series connection of $n$ \lstinline{decimal_cnt}'s, as can be seen in listing \ref{code:decimal_cnt}. And \lstinline{digint_cnt} just counts on every \lstinline{inc} rising edge, and if gets to 9 it goes back to 0 and generate a pulse on \lstinline{inc_out} (see code on listing \ref{code:digit_cnt}).
+
+\begin{figure}[htb]
+    \centering
+    \begin{subfigure}[t]{0.4\textwidth}
+        \centering
+        \includegraphics[height=0.9in]{img/digit_cnt_sym}
+        \caption{\lstinline{digit_cnt} symbol block}
+        \label{fig:digit_cnt_sym}
+    \end{subfigure}%
+    \begin{subfigure}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[height=0.9in]{img/decimal_cnt_sch}
+        \caption{\lstinline{decimal_cnt} schematic}
+        \label{fig:decimal_cnt_sch}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.6\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{img/digit_cnt_diag}
+        \caption{\lstinline{digit_cnt} flow diagram}
+        \label{fig:digit_cnt_diag}
+    \end{subfigure}
+    \caption{\lstinline{decimal_cnt} design.}
+    \label{fig:decimal_cnt_figs}
+\end{figure}
+
 
 \subsubsection{seven\_segments}
 This module is really simple, it just outputs the needed signals for a seven segments display depending on the given number it receives, it is just implemented as a look up table in a concurrent statement as seen in listing \ref{code:seven_segments}.
@@ -187,11 +237,24 @@ A package to define some types and constants is also used to improve the readabi
 
 \subsubsection{running\_light}
 
-Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{}. And the different modules are controlled using the FSM seen in figure \ref{}. In general the fast clock of the FPGA is divided by \lstinline{speed}, this clock goes to the \lstinline{lr_ring_reg}, and is also divided to count the number of runs whit the module \lstinline{decimal_cnt}. The signal going to the leds is taken from a multiplexer depending on the current value \lstinline{dir}, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
+Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{fig:running_light_sch}. And the different modules are controlled using the FSM seen in figure \ref{fig:running_light_fsm}. In general the fast clock of the FPGA is divided by \lstinline{speed}, this clock goes to the \lstinline{lr_ring_reg}, and is also divided to count the number of runs whit the module \lstinline{decimal_cnt}. The signal going to the leds is taken from a multiplexer depending on the current value \lstinline{dir}, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
 
 
-%%% TO DO:
-% a lot of images and FIR filters.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/running_light_sch}
+\caption{\lstinline{running_light} schematic}
+\label{fig:running_light_sch}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{img/running_light_fsm}
+\caption{\lstinline{running_light} control finite state machine.}
+\label{fig:running_light_fsm}
+\end{center}
+\end{figure}
 
 
 \section{FIR filters}
