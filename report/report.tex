@@ -13,6 +13,7 @@
 \setlength{\parindent}{15pt}
 
 \usepackage[english]{babel}
+\usepackage{csquotes}
 \usepackage{lipsum}
 \usepackage{hyperref}                       %Uso de hipervínculos
 \usepackage[labelfont=bf]{caption}          %Formato de figures
@@ -71,8 +72,12 @@
 
 \begin{document}
 \maketitle
-
-
+\tableofcontents
+\newpage
+\listoffigures
+\listoftables
+\lstlistoflistings
+\newpage
 \section{Convolutional encoder}
 
 The goal of this practice is to implement a convolutional encoder, of a specific code of rate $R=1/2$, with memory $m=2$, and polynomials generators $g_0(x) = x^2+1$ and $g_1(x)=x^2+x+1$. This specific convolutional encoder can be represented by a shift register and some xor operations, as seen in figure \ref{fig:conv_code_sh_reg}, or as a finite state machine as seen in figure \ref{fig:conv_code_fsm}.
@@ -91,7 +96,7 @@ The goal of this practice is to implement a convolutional encoder, of a specific
         \caption{Representation as a finite state machine}
         \label{fig:conv_code_fsm}
     \end{subfigure}
-    \caption{Caption place holder}
+    \caption{Possible representations of convolutional encoders.}
     \label{fig:conv_code_reps}
 \end{figure}
 
@@ -101,6 +106,15 @@ The goal of this practice is to implement a convolutional encoder, of a specific
 \subsection{Symbol schematic implementation}
 
 To implement this encoder in the FPGA, the first Method used was to use the schematic interface of Quartus II. For this propose the representation of a shift register of the convolutional encoder is well suited, so it is implemented as seen in figure \ref{fig:conv_code_sch}. There the shift register is done with 3 D-flipflops conected in series, with a common clock and reset, and no preset is used. Finally the two output bits are generated with xor gates using the signals stored in the registers.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{img/convolutional_code_sr.png}
+\caption{Schematic of the convolutional encoder in Quartus II.}
+\label{fig:conv_code_sch}
+\end{center}
+\end{figure}
+
 
 Finally the circuit is simulated, and the results can be seen in section \ref{sec:conv_code_results}.
 
@@ -117,9 +131,9 @@ Finally the circuit is simulated, and the results can be seen in section \ref{se
 \subsection{AHDL implementation}
 For the AHDL implementation a FSM is also used. The code in this case can be seen in listing \ref{code:conv_code_ahdl}, and is inspired by the example found in \cite{ahdl}.
 
-The first three lines correspond to the declaration of the component, then two variables are declared, one of type \lstinline{MACHINE}, where the states are declared, and one of type \lstinline{node}. In the description of the behavior, the clock and the reset of the state machine ara assigned, \lstinline{d_in} is implemented as a D-flipflop to store the incoming data over a clock period, and the behavior of the FSM is described as a table.
+The first three lines correspond to the declaration of the component, then two variables are declared, one of type \lstinline|MACHINE|, where the states are declared, and one of type \lstinline|node|. In the description of the behavior, the clock and the reset of the state machine ara assigned, \lstinline|d_in| is implemented as a D-flipflop to store the incoming data over a clock period, and the behavior of the FSM is described as a table.
 
-It is important to notice that the state machine is implemented with asynchronous outputs, that means that while being in one state, the outputs can change if the inputs change, even before the clock edge. That is why it is important the flip flop for \lstinline{d_in}, so it has a stable value over a clock period.
+It is important to notice that the state machine is implemented with asynchronous outputs, that means that while being in one state, the outputs can change if the inputs change, even before the clock edge. That is why it is important the flip flop for \lstinline|d_in|, so it has a stable value over a clock period.
 
 Finally the circuit is simulated, and the results can be seen in section \ref{sec:conv_code_results}.
 
@@ -127,7 +141,17 @@ Finally the circuit is simulated, and the results can be seen in section \ref{se
 \subsection{Simulation results}
 \label{sec:conv_code_results}
 
-In figure \ref{fig:sim_conv_code} can be seen the simulations result of the encoders, the first two signals (from top to bottom) are the clock and a reference clock with a phase difference to change the data. The third signal is the input binary data, the forth signal is the reset signal.
+To simulate all the encoders a small schematic impementing all the encoders is done, it can be seen in figure \ref{fig:conv_code_comp}. In figure \ref{fig:sim_conv_code} can be seen the simulations result of the encoders, the first two signals (from top to bottom) are the clock and a reference clock with a phase difference to change the data. The third signal is the input binary data, the forth signal is the reset signal.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{img/conv_code_comparison.jpg}
+\caption{Schematic of all the convolutional encoders in Quartus II.}
+\label{fig:conv_code_comp}
+\end{center}
+\end{figure}
+
+
 
 \begin{figure}[htbp]
 \begin{center}
@@ -142,7 +166,7 @@ Finally we see the signals of the tree encoders: AHDL, VHDL and Schematic implem
 
 
 
-
+\newpage
 \section{Running light}
 The goal of this practice is to familiarize with the FPGA board, its built elements, such as leds push buttons, switches and seven segments displays, and program the FPGA to test the results of a circuit in real life
 
@@ -162,14 +186,14 @@ To accomplish the functional specifications of the circuit, the design is broken
 
 
 \subsubsection{lr\_ring\_reg}
-To accomplish the moving pattern in both directions the entity \lstinline{lr_ring_reg} is used. It is a shift register that shift all the values to the left (in a circular manner) on every rising edge of the clock. It also has a \lstinline{pattern_in} signal that is hard set in the registers if the signal \lstinline{load} is set to high. Finally the output is a pattern moving left, and other moving right, which is implemented simply by reversing the order of the ring register.
+To accomplish the moving pattern in both directions the entity \lstinline|lr_ring_reg| is used. It is a shift register that shift all the values to the left (in a circular manner) on every rising edge of the clock. It also has a \lstinline|pattern_in| signal that is hard set in the registers if the signal \lstinline|load| is set to high. Finally the output is a pattern moving left, and other moving right, which is implemented simply by reversing the order of the ring register.
 
-The implementation  in VHDL can be seen in listing \ref{code:lr_ring_reg}. In line 7 a generic is defined to specify the number of cells in the ring register. In the architecture some intermediate signals are defined. Then in line 16 - 19 a concurrent generate statement is used to define \lstinline{pattern_out_l} as simply \lstinline{pattern_out}, and \lstinline{pattern_out_r} as the reversed version of \lstinline{pattern_out}. A process is used to do the shift operation, and an other process is used to load a pattern and update \lstinline{pattern_out}.
+The implementation  in VHDL can be seen in listing \ref{code:lr_ring_reg}. In line 7 a generic is defined to specify the number of cells in the ring register. In the architecture some intermediate signals are defined. Then in line 16 - 19 a concurrent generate statement is used to define \lstinline|pattern_out_l| as simply \lstinline|pattern_out|, and \lstinline|pattern_out_r| as the reversed version of \lstinline|pattern_out|. A process is used to do the shift operation, and an other process is used to load a pattern and update \lstinline|pattern_out|.
 
 \subsubsection{clk\_div\_n}
 A clock divider is needed for different proposes: first to make the effect of the moving light visible, but also to change the speed of the light. Also a clock that is $n_\text{led}$ (number of leds) slower than the clock used for the ring register is useful to signal when a light has done a full run from one side to the other (which is needed to count the runs of the light).
 
-For this reason an entity for a clock divider is defined, which can change the division number during operation. The code for this module is in listing \ref{code:clk_div_n}. In the entity declaration a generic is used to define the counter width. The only process of the architecture resets the counter \lstinline{cnt} and the pulse to 0 if \lstinline{rst} is 1. Otherwise on a \lstinline{clk_in} rising edge if \lstinline{n} changes, set \lstinline{cnt} to 1 and \lstinline{pulse_reg} to 0, if \lstinline{cnt = n - 1}, \lstinline{cnt} is set again to 0 and \lstinline{pulse_reg} to 1, otherwise \lstinline{cnt} is increased by one and \lstinline{pulse_reg} set to 0. The result is a small positive pulse every \lstinline{n} pulses of \lstinline{clk_in}.
+For this reason an entity for a clock divider is defined, which can change the division number during operation. The code for this module is in listing \ref{code:clk_div_n}. In the entity declaration a generic is used to define the counter width. The only process of the architecture resets the counter \lstinline|cnt| and the pulse to 0 if \lstinline|rst| is 1. Otherwise on a \lstinline|clk_in| rising edge if \lstinline|n| changes, set \lstinline|cnt| to 1 and \lstinline|pulse_reg| to 0, if \lstinline|cnt = n - 1|, \lstinline|cnt| is set again to 0 and \lstinline|pulse_reg| to 1, otherwise \lstinline|cnt| is increased by one and \lstinline|pulse_reg| set to 0. The result is a small positive pulse every \lstinline|n| pulses of \lstinline|clk_in|.
 
 
 
@@ -178,17 +202,17 @@ For this reason an entity for a clock divider is defined, which can change the d
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
 \includegraphics[width=0.5\textwidth]{img/clk_div_n_sym}
-        \caption{\lstinline{clk_dic_n} symbol block}
+        \caption{\lstinline|clk_dic_n| symbol block}
         \label{fig:clk_div_n_sym}
     \end{subfigure}%
     \hfill
     \begin{subfigure}[t]{0.9\textwidth}
         \centering
 \includegraphics[width=0.5\textwidth]{img/clk_div_n_diag}
-        \caption{\lstinline{clk_dic_n} flow diagram}
+        \caption{\lstinline|clk_dic_n| flow diagram}
         \label{fig:clk_div_n_diag}
     \end{subfigure}
-    \caption{\lstinline{clk_dic_n} desing}
+    \caption{\lstinline|clk_dic_n| desing}
     \label{fig:clk_div_n_figs}
 \end{figure}
 
@@ -197,30 +221,30 @@ For this reason an entity for a clock divider is defined, which can change the d
 
 \subsubsection{decimal\_cnt}
 
-This module is used to count the number of runs of the light. It is based on the module \lstinline{digint_cnt}, and is just a series connection of $n$ \lstinline{decimal_cnt}'s, as can be seen in listing \ref{code:decimal_cnt}. And \lstinline{digint_cnt} just counts on every \lstinline{inc} rising edge, and if gets to 9 it goes back to 0 and generate a pulse on \lstinline{inc_out} (see code on listing \ref{code:digit_cnt}).
+This module is used to count the number of runs of the light. It is based on the module \lstinline|digint_cnt|, and is just a series connection of $n$ \lstinline|decimal_cnt|'s, as can be seen in listing \ref{code:decimal_cnt}. And \lstinline|digint_cnt| just counts on every \lstinline|inc| rising edge, and if gets to 9 it goes back to 0 and generate a pulse on \lstinline|inc_out| (see code on listing \ref{code:digit_cnt}).
 
 \begin{figure}[htb]
     \centering
     \begin{subfigure}[t]{0.4\textwidth}
         \centering
         \includegraphics[height=0.9in]{img/digit_cnt_sym}
-        \caption{\lstinline{digit_cnt} symbol block}
+        \caption{\lstinline|digit_cnt| symbol block}
         \label{fig:digit_cnt_sym}
     \end{subfigure}%
     \begin{subfigure}[t]{0.6\textwidth}
         \centering
         \includegraphics[height=0.9in]{img/decimal_cnt_sch}
-        \caption{\lstinline{decimal_cnt} schematic}
+        \caption{\lstinline|decimal_cnt| schematic}
         \label{fig:decimal_cnt_sch}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.6\textwidth}
         \centering
         \includegraphics[width=0.9\textwidth]{img/digit_cnt_diag}
-        \caption{\lstinline{digit_cnt} flow diagram}
+        \caption{\lstinline|digit_cnt| flow diagram}
         \label{fig:digit_cnt_diag}
     \end{subfigure}
-    \caption{\lstinline{decimal_cnt} design.}
+    \caption{\lstinline|decimal_cnt| design.}
     \label{fig:decimal_cnt_figs}
 \end{figure}
 
@@ -230,20 +254,20 @@ This module is really simple, it just outputs the needed signals for a seven seg
 
 
 \subsubsection{speed\_rom}
-To change the speed of the light a ROM is implemented, where different values of $n$ are stored and used as inputs of \lstinline{clk_div_n}, this file is automatically generated using a python code (see listing \ref{code:create_speed_rom}) depending in some parameters, an example the VHDL rom can be seen in listing \ref{code:speed_rom}.
+To change the speed of the light a ROM is implemented, where different values of $n$ are stored and used as inputs of \lstinline|clk_div_n|, this file is automatically generated using a python code (see listing \ref{code:create_speed_rom}) depending in some parameters, an example the VHDL rom can be seen in listing \ref{code:speed_rom}.
 
 \subsubsection{const\_types\_pkg}
-A package to define some types and constants is also used to improve the readability of the code in \lstinline{running_light} (see code in listing \ref{code:const_types_pkg}).
+A package to define some types and constants is also used to improve the readability of the code in \lstinline|running_light| (see code in listing \ref{code:const_types_pkg}).
 
 \subsubsection{running\_light}
 
-Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{fig:running_light_sch}. And the different modules are controlled using the FSM seen in figure \ref{fig:running_light_fsm}. In general the fast clock of the FPGA is divided by \lstinline{speed}, this clock goes to the \lstinline{lr_ring_reg}, and is also divided to count the number of runs whit the module \lstinline{decimal_cnt}. The signal going to the leds is taken from a multiplexer depending on the current value \lstinline{dir}, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
+Finally the top level entity is described in listing \ref{code:running_light}. A structural schematic of the model can be seen in figure \ref{fig:running_light_sch}. And the different modules are controlled using the FSM seen in figure \ref{fig:running_light_fsm}. In general the fast clock of the FPGA is divided by \lstinline|speed|, this clock goes to the \lstinline|lr_ring_reg|, and is also divided to count the number of runs whit the module \lstinline|decimal_cnt|. The signal going to the leds is taken from a multiplexer depending on the current value \lstinline|dir|, and with the FSM the circuits switches between the modes \textbf{Start}, \textbf{Stop}, \textbf{Reset, Load pattern}.
 
 
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{img/running_light_sch}
-\caption{\lstinline{running_light} schematic}
+\caption{\lstinline|running_light| schematic}
 \label{fig:running_light_sch}
 \end{center}
 \end{figure}
@@ -251,7 +275,7 @@ Finally the top level entity is described in listing \ref{code:running_light}. A
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[width=0.7\textwidth]{img/running_light_fsm}
-\caption{\lstinline{running_light} control finite state machine.}
+\caption{\lstinline|running_light| control finite state machine.}
 \label{fig:running_light_fsm}
 \end{center}
 \end{figure}
@@ -259,28 +283,250 @@ Finally the top level entity is described in listing \ref{code:running_light}. A
 
 \section{FIR filters}
 
+For this experiment the four basic FIR filters are done: low pass, hight pass, band pass, and band stop. All the filters are implemented as a second order FIR, with the coefficients shown in table \ref{tab:coeffs}. Additionally the filters are implemented using two possible representations: direct and transposed graph as show in figure \ref{fig:FIR_imp}.
+
+\begin{table}[htbp]
+	\centering
+\begin{tabular}{|c|c|c|c|}
+	\hline
+	& $a_0$ & $a_1$ & $a_2$ \\
+	\hline
+	Low pass & 0.25 & 0.5 & 0.25 \\
+	\hline
+	High pass & 0.25 & -0.5 & 0.25 \\
+	\hline
+	Band pass & -0.5 & 0 & 0.5 \\
+	\hline
+	Band stop & 0.5 & 0 & 0.5 \\
+	\hline
+\end{tabular}
+\caption{Coefficients of the different FIR filters}
+\label{tab:coeffs}
+\end{table}
+
+
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{img/FIR_imp}
+		\caption{Direct (a) and transposed (b) graphs for a FIR filter.}
+		\label{fig:FIR_imp}
+	\end{center}
+\end{figure}
+
+
 
 \subsection{Low pass}
 
+To implement the Low pass filter the direct representation is used, and the schematic editor of Quartus is used. The final schematic can be seen in figure \ref{fig:LP_sh}. It is important to notice some modifications to the filter in order to be able to implement it.
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{img/low_pass_direct_graph.png}
+\caption{Schematic of the low pass filter in Quartus II}
+\label{fig:LP_sh}
+\end{center}
+\end{figure}
+
+
+First of all, since Quartus schematic editor have only multipliers, the multiplication by $0.25$ or $0.5$, i.e. division by 4 and 2 can not be implemented. To solve this the coefficients are all multiplied by 4, so the equivalent coefficients are $a_0=1$, $a_1=2$ and $a_2=1$. This does not change the frequency response of the filter, since it is linear, but now the multiplication block can be used.
+
+Second, since there is a multiplication by 4, the output of the multiplication has two bits more than the input. But in our model we wanted to have always the same amount of bits, so the 3 least significant bits are discarded, this is done automatically by the multiplication block.
+
+Finally the circuit is simulated under an impulse response and a step response. The results can be seen in figure \ref{fig:low_pass_sim}. Notice how the output has a total gain of $1/2$, this is because the coefficients are multiplied by 4, but the three LSB are discarded, so a net gain of $4/8=1/2$ is obtained.
+
+\begin{figure}[htb]
+	\centering
+	\begin{subfigure}[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/lp_sim_imp}
+		\caption{Simulation of the low pass filter for an impulse response.}
+		\label{fig:lp_sim_imp}
+	\end{subfigure}%
+	\begin{subfigure}[t]{0.5\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/lp_sim_step}
+	\caption{Simulation of the low pass filter for a step response.}
+	\label{fig:lp_sim_step}
+\end{subfigure}%
+	\caption{Low pass filter simulations.}
+	\label{fig:low_pass_sim}
+\end{figure}
 
 
 \subsection{High pass}
+
+The high pass filter is implemented using the transposed representation. The circuit is again described using the Quartus schematic editor, so again the coefficients of $0.25$ and $0.5$ are implemented by multipliers of weight 1 and 2 respectively, and again the least 3 significant bits of the multipliers are discarded. The result is the expected high pass filter with a net gain of $1/2$. The schematic can be seen in figure \ref{fig:HP_sh}.
+
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=\textwidth]{img/high_pass_transposed_graph}
+\caption{Schematic of the high pass filter in Quartus II}
+\label{fig:HP_sh}
+\end{center}
+\end{figure}
 
 
 
 \subsection{Band pass}
 
+The band pass filter is done with VHDL code and the direct representation is used. The code can be seen in listing \ref{code:band_pass}, and consist of a single process, with an asynchronous reset, and on each clock rising edge the output signal is calculated from the registers, and the registers shift the value of the incoming signal. To calculate the output the syntax \lstinline|taps(0) / 2| is used, which is allowed by the Quartus synthesizer because the denominator is a power of 2.  
 
 
 \subsection{Band stop}
+
+The band stop filter is done with VHDL code and the transposed representation is used. The code can be seen in listing \ref{code:band_stop}, and consist of a single process, with an asynchronous reset, and on each clock rising edge to each register a new value is assigned, which corespond to the sum of the last register and the input signal multiplied with the respective coefficient. Again syntax \lstinline|taps(0) / 2| is used to perform the division.  
+
 
 
 
 \subsection{Project with the 4 filters}
 
+Finally to test the filters with the FPGA a small module is written in VHDL that has as inputs the output of each filter, and 4 push buttons used to select one of the filters as the output of the system. The code can be seen in listing \ref{code:fir_mux}, it implements a simple process to control the value of the signal \lstinline|fir_select|, two drivers that perform the multiplexer based on \lstinline|fir_select| and a final process doing a simple clock divider to lower the sampling frequency of the system, in such a way that the filters can be tested with the 1 MHz signal generator.
+
+All the filters and the multiplexer are connected using the Quartus schematic editor (se figure \ref{fig:filters_all}). and testing with a real sinusoidal signal for each filter shows the correct working of the system (see figures \ref{fig:lpr}, \ref{fig:hpr}, \ref{fig:bpr} and \ref{fig:bsr}. On each figure the input signal is above and the output below)
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.6\textwidth]{img/fir_filters.jpg}
+\caption{Schematic of all the filters in Quartus II}
+\label{fig:filters_all}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/lp_lf}
+		\caption{Low pass filter working at low frequency.}
+		\label{fig:lp_lf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/lp_mf}
+	\caption{Low pass filter working at intermediate frequency.}
+	\label{fig:lp_mf}
+\end{subfigure}%
+\hfill
+	\begin{subfigure}[t]{\textwidth}
+	\centering
+	\includegraphics[width=0.9\textwidth]{img/lp_fh}
+	\caption{Low pass filter working at high frequency.}
+	\label{fig:lp_hf}
+\end{subfigure}%
+	\caption{Low pass filter results.}
+	\label{fig:lpr}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/hp_lf}
+		\caption{High pass filter working at low frequency.}
+		\label{fig:hp_lf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/hp_mf}
+		\caption{High pass filter working at intermediate frequency.}
+		\label{fig:hp_mf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/hp_hf}
+		\caption{High pass filter working at high frequency.}
+		\label{fig:hp_hf}
+	\end{subfigure}%
+	\caption{High pass filter results.}
+	\label{fig:hpr}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bp_lf}
+		\caption{Band pass filter working at low frequency.}
+		\label{fig:bp_lf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bp_mf}
+		\caption{Band pass filter working at intermediate frequency.}
+		\label{fig:bp_mf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bp_hf}
+		\caption{Band pass filter working at high frequency.}
+		\label{fig:bp_hf}
+	\end{subfigure}%
+	\caption{Band pass filter results.}
+	\label{fig:bpr}
+\end{figure}
+
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bs_lf}
+		\caption{Band stop filter working at low frequency.}
+		\label{fig:bs_lf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bs_mf}
+		\caption{Band stop filter working at intermediate frequency.}
+		\label{fig:bs_mf}
+	\end{subfigure}%
+	\hfill
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/bs_hf}
+		\caption{Band stop filter working at high frequency.}
+		\label{fig:bs_hf}
+	\end{subfigure}%
+	\caption{Band stop filter results.}
+	\label{fig:bsr}
+\end{figure}
+
+Finally in table \ref{tab:fir_sinth} we can see the maximum frequency and the number of used logic elements in the implementation of each filter. This shows as that there is a trade off between maximum frequency and the size of the circuit, so the transposed representation is better suited for small circuits, whereas the direct representation is faster at the expenses of using more hardware.
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		 Filter & $F_\text{max}$ [MHz] & total logic elements \\
+		\hline
+		Low pass & 797.45 &38  \\
+		\hline
+		High pass & 382.7 &  36\\
+		\hline
+		Band pass &264.69  &  56\\
+		\hline
+		Band stop &404.2  & 42\\
+		\hline
+	\end{tabular}
+	\caption{Limitations of the synthesized filters}
+	\label{tab:fir_sinth}
+\end{table}
+
+\newpage
 
 \printbibliography
 
+\newpage
 
 \section*{Annex}
 
@@ -306,8 +552,13 @@ Finally the top level entity is described in listing \ref{code:running_light}. A
 
 \lstinputlisting[caption={Code in VHDL for \lstinline{running_light}.}, label={code:running_light}]{../running_light/running_light.vhd}
 
+\lstinputlisting[caption={Code in VHDL for the package used in the fir filter.}, label={code:fir_package}]{../fir_filters/const_types_pkg.vhd}
 
+\lstinputlisting[caption={Code in VHDL for the band pass filter.}, label={code:band_pass}]{../fir_filters/band_pass_direct_vhdl/band_pass_direct_vhdl.vhd}
 
+\lstinputlisting[caption={Code in VHDL for the band stop filter.}, label={code:band_stop}]{../fir_filters/band_stop_transposed_vhdl/band_stop_transposed_vhdl.vhd}
+
+\lstinputlisting[caption={Code in VHDL for the multiplexer uesd to select the filter.}, label={code:fir_mux}]{../fir_filters/fir_filters_mux/fir_filters_mux.vhd}
 
 
 
